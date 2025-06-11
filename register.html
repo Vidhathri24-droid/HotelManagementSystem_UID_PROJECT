@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - EliteInn</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: url('img/slider-1.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .register-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    </style>
+
+    <script>
+        function handleRegister(event) {
+            event.preventDefault();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const existingUser = users.find(user => user.email === email);
+            if (existingUser) {
+                alert("User already exists with this email.");
+                return;
+            }
+
+            const newUser = {
+                email: email,
+                password: password,
+                role: 'customer'
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            alert("Registration successful! Please login.");
+            window.location.href = 'login.html';
+        }
+
+        function validateEmail(input) {
+            const regex = /^\S+@\S+\.\S+$/;
+            input.setCustomValidity(regex.test(input.value) ? "" : "Please enter a valid email address.");
+        }
+
+        function validatePassword(input) {
+            input.setCustomValidity(input.value.length >= 6 ? "" : "Password must be at least 6 characters long.");
+        }
+    </script>
+</head>
+<body>
+	<header>
+  		<h4 class="mb-0">EliteInn</h4>
+  		<button onclick="logout()" class="logout-btn">Logout</button>
+	</header>
+    <div class="register-container">
+        <div class="register-box">
+            <h3 class="text-center mb-4">EliteInn Registration</h3>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" id="reg-email" required oninput="validateEmail(this)">
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" id="reg-password" required oninput="validatePassword(this)">
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Register</button>
+                <p class="text-center mt-3">Already have an account? <a href="login.html">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

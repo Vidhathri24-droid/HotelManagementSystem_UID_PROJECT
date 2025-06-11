@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Gallery</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/flaticon.css" type="text/css">
+    <link rel="stylesheet" href="css/linearicons.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .gallery-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <header>
+  <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: auto;">
+    <a href="about-us.html" style="color: white; text-decoration: none; font-size: 18px;">
+      ← Go Back
+    </a>
+    <h1 style="margin: 0 auto; color: white;">Hotel Gallery</h1>
+    <div style="width: 80px;"></div> <!-- empty div to balance the layout -->
+  </div>
+</header>
+
+  </header>
+
+  <div class="gallery-container">
+    <h2>Explore Our Beautiful Spaces</h2>
+    <div class="gallery-grid">
+      <img src="https://thumbs.dreamstime.com/b/hotel-bed-white-linen-pure-sheets-resort-cozy-featuring-wrinkle-free-promise-restful-night-351666981.jpg?w=768" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://blupp.b-cdn.net/eroshotel/bbd0e739-682a-4e30-a1b0-aea296169f28/home-slider-2.jpg?quality=80" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc=" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnTyrC-yePZQjh4JQw2jjPYOG2JPC0qhgoX-BH6npXbTsxR80V6yhIsdVrb005eKoSIag&usqp=CAU" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://www.ohotelsindia.com/pune/images/13c6386862540c41822c39464b130b65.jpg" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLEqVaP0V7DgrZivoiO3XgKWHRS2yEUE95EQ&s" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLkIHPi5dPoRJLzyejM98ij0ETVnAOr_8aIA&s" alt="Gallery Image" onclick="openLightbox(this.src)">
+	<img src="https://www.1hotels.com/sites/1hotels.com/files/styles/card/public/brandfolder/bmxk35jfkqkvkg9v7ptt6nf5/34_Bamford_Spa-2w1620.png?h=28121b77&itok=Phx-zP62" alt="Gallery Image" onclick="openLightbox(this.src)">
+	
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRteWelblp3GkgfS6xVEqrMTTrM1hoVDgkCsA&s" alt="Gallery Image" onclick="openLightbox(this.src)">
+
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTIYopT9ysd-2__nQYUjkL6NRDcMMsWY0Iag&s" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm9hzC8Fk5WKin3qGLzU_M4IcpdLdz-lFLbQ&s" alt="Gallery Image" onclick="openLightbox(this.src)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHew3TTtnGTjyOeo1VxhE6OPM2XoKDAk0T4Q&s" alt="Gallery Image" 
+onclick="openLightbox(this.src)">
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Large View">
+  </div>
+
+
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox").style.display = "flex";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+<footer class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer-logo">
+                    <a href="#"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-50">
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-footer-widget">
+                    <h5>Location</h5>
+                    <div class="widget-text">
+                        <i class="lnr lnr-map-marker"></i>
+                        <p>1525 Boring Lane, <br />Los Angeles, CA</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-footer-widget">
+                    <h5>Reception</h5>
+                    <div class="widget-text">
+                        <i class="lnr lnr-phone-handset"></i>
+                        <p>+1 (603)535-4592</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-footer-widget">
+                    <h5>Shuttle Service</h5>
+                    <div class="widget-text">
+                        <i class="lnr lnr-phone-handset"></i>
+                        <p>+1 (603)535-4592</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-footer-widget">
+                    <h5>Restaurant</h5>
+                    <div class="widget-text">
+                        <i class="lnr lnr-phone-handset"></i>
+                        <p>+1 (603)535-4592</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Removed copyright-area section -->
+</footer>
+</body>
+</html>
