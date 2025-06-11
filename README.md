@@ -5,25 +5,45 @@ This is a responsive hotel management website user interface built using HTML, C
 ## 📁 Project Structure
 
 ├── index.html # Landing/Home page
+
 ├── login.html # Login page (role-based)
+
 ├── register.html # User registration
+
 ├── admin.html # Admin dashboard
+
 ├── staff-dashboard.html # Staff dashboard
+
 ├── customer_dashboard.html # Customer dashboard
+
 ├── bookings-admin.html # View all bookings (admin)
+
 ├── rooms-admin.html # Manage rooms (admin)
+
 ├── food_ordering.html # Food ordering system
+
 ├── rooms.html # View rooms
+
 ├── contact.html # Contact page
+
 ├── about-us.html # About the hotel
+
 ├── services.html # Hotel services
+
 ├── gallery.html # Photo gallery
+
 ├── profile.html # User profile
+
 ├── users.html # View registered users
+
 ├── css/ # All CSS stylesheets
+
 ├── js/ # All JavaScript files
+
 ├── img/ # Images used across the site
+
 ├── fonts/ # Font resources
+
 ├── Source/ # Source packages (UI libraries)
 
 
