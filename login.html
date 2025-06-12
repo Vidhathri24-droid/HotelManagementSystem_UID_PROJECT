@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - EliteInn</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <style>
+    body {
+      margin: 0;
+      background: url('img/slider-1.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .logout-btn {
+      border: none;
+      background: transparent;
+      color: white;
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      color: #ffc107;
+    }
+
+    .login-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      z-index: 1;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    #errorMsg {
+      display: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h4 class="mb-0">EliteInn</h4>
+  <button onclick="logout()" class="logout-btn">Logout</button>
+</header>
+
+<div class="login-container">
+  <div class="login-box">
+    <h3 class="text-center mb-4">EliteInn Login</h3>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group mb-2">
+        <label>Email:</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+      <div class="form-group mb-2">
+        <label>Password:</label>
+        <input type="password" class="form-control" id="password" required>
+      </div>
+      <div class="form-group mb-3">
+        <label>Login as:</label>
+        <select class="form-control" id="role" required>
+          <option value="customer">Customer</option>
+          <option value="staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <p class="text-center mt-3">Don't have an account? <a href="register.html">Register</a></p>
+      <p id="errorMsg" class="text-danger text-center mt-2">Invalid credentials. Please try again.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Default users setup
+  const defaultUsers = [
+    { email: "admin@example.com", password: "admin123", role: "admin" },
+    { email: "staff@example.com", password: "staff123", role: "staff" },
+    { email: "user@example.com", password: "user123", role: "customer" }
+  ];
+
+  if (!localStorage.getItem("users")) {
+    localStorage.setItem("users", JSON.stringify(defaultUsers));
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value.toLowerCase();
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const user = users.find(u =>
+      u.email.toLowerCase() === email &&
+      u.password === password &&
+      u.role.toLowerCase() === role
+    );
+
+    const errorMsg = document.getElementById("errorMsg");
+
+    if (user) {
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      if (role === "admin") window.location.href = "admin.html";
+      else if (role === "staff") window.location.href = "staff-dashboard.html";
+      else window.location.href = "customer_dashboard.html";
+    } else {
+      errorMsg.style.display = "block";
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>

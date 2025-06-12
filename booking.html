@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Booking - EliteInn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('img/slider-1.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      margin: 3rem auto;
+      padding: 2rem;
+      max-width: 800px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .room-status {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body onload="initPage();">
+
+<header>
+  <h2>EliteInn Room Booking</h2>
+  <a style="color:white;" href="./customer_dashboard.html">Go Back</a>
+  <button onclick="logout()" class="btn btn-light btn-sm">Logout</button>
+</header>
+
+<div class="container">
+  <h3 class="text-center mb-4">Book a Room</h3>
+  <form onsubmit="bookRoom(event)">
+    <input type="text" id="guestName" class="form-control mb-3" placeholder="Full Name" required />
+    <input type="text" id="roomType" class="form-control mb-3" placeholder="Room Type (e.g. Deluxe, Standard)" required />
+    <input type="date" id="checkIn" class="form-control mb-3" required />
+    <input type="date" id="checkOut" class="form-control mb-3" required />
+    <button type="submit" class="btn btn-success w-100">Confirm Booking</button>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <h3 class="text-center mb-4">Available Rooms</h3>
+  <div class="row" id="room-list">
+    <!-- Room cards will appear here -->
+  </div>
+</div>
+
+<script>
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
+}
+
+function checkLogin() {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user || user.role !== "customer") {
+    alert("Access denied! Customers only.");
+    window.location.href = "login.html";
+  }
+}
+
+function initializeRooms() {
+  let rooms = JSON.parse(localStorage.getItem("rooms"));
+  if (!rooms || rooms.length === 0) {
+    rooms = [
+      { id: 101, type: "Deluxe", price: 3500, status: "available" },
+      { id: 102, type: "Standard", price: 2500, status: "available" },
+      { id: 103, type: "Suite", price: 5000, status: "available" }
+    ];
+    localStorage.setItem("rooms", JSON.stringify(rooms));
+  }
+}
+
+function initPage() {
+  checkLogin();
+  initializeRooms();
+  restoreExpiredRooms();
+  displayAvailableRooms();
+}
+
+function restoreExpiredRooms() {
+  const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  const today = new Date().toISOString().split("T")[0];
+  let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+
+  bookings.forEach(booking => {
+    if (booking.checkOut < today) {
+      // Find room and mark available
+      const idx = rooms.findIndex(r => r.id == booking.roomNumber);
+      if (idx !== -1) {
+        rooms[idx].status = "available";
+      }
+    }
+  });
+
+  localStorage.setItem("rooms", JSON.stringify(rooms));
+}
+
+function displayAvailableRooms() {
+  const roomList = document.getElementById("room-list");
+  roomList.innerHTML = "";
+
+  const rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+
+  rooms.forEach(room => {
+      const card = document.createElement("div");
+      card.className = "col-md-4 mb-4";
+      const statusClass = room.status === "available" ? "text-success" : "text-danger";
+      card.innerHTML = `
+        <div class="card p-3">
+          <h5 class="card-title">Room ${room.id}</h5>
+          <p class="card-text">Type: ${room.type}</p>
+          <p class="card-text">Price: ₹${room.price}</p>
+          <p class="card-text room-status ${statusClass}">Status: ${room.status}</p>
+        </div>
+      `;
+      roomList.appendChild(card);
+  });
+}
+
+function generateRoomNumber(type) {
+  const rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+  const available = rooms.find(r => r.status === "available" && r.type.toLowerCase() === type.toLowerCase());
+  return available ? available.id : null;
+}
+
+function bookRoom(e) {
+  e.preventDefault();
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const name = document.getElementById('guestName').value.trim();
+  const roomType = document.getElementById('roomType').value.trim();
+  const checkIn = document.getElementById('checkIn').value;
+  const checkOut = document.getElementById('checkOut').value;
+
+  if (!name || !roomType || !checkIn || !checkOut) {
+    alert("All fields are required!");
+    return;
+  }
+
+  const roomNumber = generateRoomNumber(roomType);
+  if (!roomNumber) {
+    alert("No available room of this type!");
+    return;
+  }
+
+  const booking = {
+    name,
+    email: user.email,
+    roomType,
+    roomNumber,
+    checkIn,
+    checkOut,
+    bookedAt: new Date().toLocaleString()
+  };
+
+  // Save booking
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  bookings.push(booking);
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+
+  // Update room status
+  let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+  const idx = rooms.findIndex(r => r.id === roomNumber);
+  if (idx !== -1) {
+    rooms[idx].status = "booked";
+  }
+  localStorage.setItem("rooms", JSON.stringify(rooms));
+
+  alert("Booking confirmed for Room " + roomNumber + "!");
+  e.target.reset();
+  displayAvailableRooms();
+}
+</script>
+
+</body>
+</html>
