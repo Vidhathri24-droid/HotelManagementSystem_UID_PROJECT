@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Dashboard - EliteInn</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'customer') {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+<header class="bg-dark text-white py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h4>EliteInn</h4>
+        <button onclick="logout()" class="btn btn-outline-light btn-sm">Logout</button>
+    </div>
+</header>
+<div class="container mt-4 content-box">
+    <h3>Welcome, <span id="user-name"></span>!</h3>
+    <p>Manage your bookings and orders below.</p>
+    <ul>
+        <li><a href="booking.html">Room Booking</a></li>
+        <li><a href="food_ordering.html">Food Orders</a></li>
+    </ul>
+</div>
+<script>
+    document.getElementById("user-name").innerText = user.email;
+</script>
+</body>
+</html>
